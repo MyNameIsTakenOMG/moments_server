@@ -1,5 +1,6 @@
 
 const validator = (schema)=>(req,res,next)=>{
+    console.log('req.body: ',req.body);
     const {error} = schema.validate(req.body,{abortEarly:false})
     const valid = error ==null
     if(valid) return next()
