@@ -21,7 +21,7 @@ const nodeEnv = process.env.NODE_ENV || 'development'
 let frontend_origin = process.env.FRONTEND_ORIGIN 
 
 // redis
-const redisClient = new Redis(process.env.REDIS_CONNECTION_URI)
+const redisClient = new Redis(process.env.REDISTOGO_URL)
 const flushDB = async()=>{
   try {
     await redisClient.flushdb()
