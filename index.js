@@ -16,9 +16,6 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 8000
 
-const nodeEnv = process.env.NODE_ENV || 'development'
-
-let frontend_origin = process.env.FRONTEND_ORIGIN 
 
 // redis
 const redisClient = new Redis(process.env.REDISTOGO_URL)
@@ -34,7 +31,7 @@ flushDB()
 
 // socket io
 const server = http.createServer(app)
-const io = new Server(server,{cors:{origin:'http://localhost:3000'}})
+const io = new Server(server,{cors:{origin:process.env.NODE_ENV===undefined?'http://localhost:3000':process.env.MOMENTS_APP_FRONT_SITE}})
 // pass io instance to each route
 app.use((req, res, next) => {
   req.io = io;
