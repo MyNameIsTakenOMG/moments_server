@@ -16,6 +16,21 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 8000
 
+app.use(cookieParser())
+app.use(cors({origin:process.env.MOMENTS_APP_FRONT_SITE}))
+app.use(express.json({limit:'50mb'}))
+app.use(express.urlencoded({limit:'50mb',extended:true}))
+
+// connecting mongoDB atlas
+mongoose.connect(process.env.MONGODB_CONNECTION_URI)
+.then(res=>console.log('MongoDB database is connected'))
+.catch(err=>console.log(err.message))    
+
+mongoose.connection.on('error', err => {
+    console.log(err.message);
+  });
+// mongoose.set('toJSON',{virtuals:true})
+
 
 // redis
 const redisClient = new Redis(process.env.REDISTOGO_URL)
@@ -66,22 +81,6 @@ io.on('connection',(socket)=>{
     console.log('in redis? : ', result);
   })
 })
-
-app.use(cookieParser())
-app.use(cors())
-app.use(express.json({limit:'50mb'}))
-app.use(express.urlencoded({limit:'50mb',extended:true}))
-
-// connecting mongoDB atlas
-mongoose.connect(process.env.MONGODB_CONNECTION_URI)
-.then(res=>console.log('MongoDB database is connected'))
-.catch(err=>console.log(err.message))    
-
-mongoose.connection.on('error', err => {
-    console.log(err.message);
-  });
-
-// mongoose.set('toJSON',{virtuals:true})
 
 app.get('/',(req,res)=>{
   res.send('<h1>Welcome, this is Moments API</h1>')
