@@ -17,7 +17,7 @@ const app = express()
 const port = process.env.PORT || 8000
 
 app.use(cookieParser())
-app.use(cors({origin:process.env.MOMENTS_APP_FRONT_SITE}))
+app.use(cors({origin:[process.env.MOMENTS_APP_FRONT_SITE,'http://localhost:3000']}))
 app.use(express.json({limit:'50mb'}))
 app.use(express.urlencoded({limit:'50mb',extended:true}))
 
@@ -46,7 +46,7 @@ flushDB()
 
 // socket io
 const server = http.createServer(app)
-const io = new Server(server,{cors:{origin:process.env.NODE_ENV===undefined?'http://localhost:3000':process.env.MOMENTS_APP_FRONT_SITE}})
+const io = new Server(server,{cors:{origin:process.env.NODE_ENV!=='production'?'http://localhost:3000':process.env.MOMENTS_APP_FRONT_SITE}})
 // pass io instance to each route
 app.use((req, res, next) => {
   req.io = io;
