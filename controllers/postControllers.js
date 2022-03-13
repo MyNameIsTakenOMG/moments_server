@@ -9,11 +9,9 @@ import validateObjectId from '../utils/validateObjectId.js'
  
  const getAllPosts = async(req,res)=>{
     try {
-
         console.log('get all posts ');
-        const {cursor,cookie} = req.query
+        const {cursor} = req.query
         console.log('the cursor is: ',cursor);
-        console.log('the cookie is: ',cookie);
         const limit = parseInt(req.query.limit)
         let theArray=[]
         let newCursor
