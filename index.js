@@ -17,7 +17,7 @@ const app = express()
 const port = process.env.PORT || 8000
 
 app.use(cookieParser())
-if(process.env.NODE_ENV==='production') app.use(cors())
+if(process.env.NODE_ENV==='production') app.use(cors({origin:process.env.MOMENTS_APP_FRONT_SITE}))
 else app.use(cors({origin:'http://localhost:3000'}))
 // app.use(cors({credentials:true,origin:[process.env.MOMENTS_APP_FRONT_SITE,'http://localhost:3000']}))
 app.use(express.json({limit:'50mb'}))
