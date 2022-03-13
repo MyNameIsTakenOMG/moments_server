@@ -86,9 +86,9 @@ app.get('/',(req,res)=>{
   res.send('<h1>Welcome, this is Moments API</h1>')
 })
 
-app.use('/posts',jwt({secret:process.env.JWT_SECRET,algorithms:['HS256'],getToken:req=>req.cookies.token}),postRoutes)
-app.use('/comments',jwt({secret:process.env.JWT_SECRET,algorithms:['HS256'],getToken:req=>req.cookies.token}),commentRoutes)
-app.use('/user',userRoutes)
+app.use('/api/posts',jwt({secret:process.env.JWT_SECRET,algorithms:['HS256'],getToken:req=>req.cookies.token}),postRoutes)
+app.use('/api/comments',jwt({secret:process.env.JWT_SECRET,algorithms:['HS256'],getToken:req=>req.cookies.token}),commentRoutes)
+app.use('/api/user',userRoutes)
 
 
 //error handlers
