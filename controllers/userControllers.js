@@ -109,8 +109,8 @@ const signUpUser = async(req,res)=>{
         //create a JWT token and put it in the cookie ( in production, remember to setup domain for cookie)
         const token = jsonwebtoken.sign({user:newUser.username},jwt_secret,{expiresIn:'7d',algorithm:'HS256'})
         
-        if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
-        else res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7})
+        if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
+        else res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7})
         let newRegularUser = await User.findOne({username:newUser.username},userProjection)
         res.status(200).json({user:newRegularUser,message:'account created successfully'})
 
@@ -157,8 +157,8 @@ const signInUser = async(req,res)=>{
                 await newUser.save()
                 //create a JWT token and put it in the cookie ( in production, remember to setup domain for cookie)
                 const token = jsonwebtoken.sign({user:newUser.username},jwt_secret,{expiresIn:'7d',algorithm:'HS256'})
-                if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
-                else res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7})
+                if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
+                else res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7})
                 let newGoogleUser = await User.findOne({username:newUser.username},userProjection)
                 res.status(200).json({user:newGoogleUser,message:'Logged in successfully'})
             }
@@ -183,8 +183,8 @@ const signInUser = async(req,res)=>{
                 await isGoogleUser.save()
                 //create a JWT token and put it in the cookie ( in production, remember to setup domain for cookie)
                 const token = jsonwebtoken.sign({user:isGoogleUser.username},jwt_secret,{expiresIn:'7d',algorithm:'HS256'})
-                if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
-                else res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7})
+                if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
+                else res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7})
                 res.status(200).json({user:isGoogleUser,message:'Logged in successfully'})
             }
             
@@ -198,8 +198,8 @@ const signInUser = async(req,res)=>{
                 if(match){
                     //create a JWT token and put it in the cookie ( in production, remember to setup domain for cookie)
                     const token = jsonwebtoken.sign({user:theUser.username},jwt_secret,{expiresIn:'7d',algorithm:'HS256'})
-                    if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
-                    else res.cookie('token',token,{httpOnly:false,maxAge:60*60*24*7})
+                    if(process.env.NODE_ENV==='production') res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
+                    else res.cookie('token',token,{httpOnly:true,maxAge:60*60*24*7})
                     let theRegularUser = await User.findOne({username:theUser.username},userProjection)
                     res.status(200).json({user:theRegularUser,message:'Logged in successfully'})
                 }
@@ -215,8 +215,8 @@ const signInUser = async(req,res)=>{
 }
 
 const signOutUser = (req,res)=>{
-    if(process.env.NODE_ENV==='production')res.clearCookie('token',{httpOnly:false,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
-    else res.clearCookie('token',{httpOnly:false,maxAge:60*60*24*7})
+    if(process.env.NODE_ENV==='production')res.clearCookie('token',{httpOnly:true,maxAge:60*60*24*7,sameSite:'none',secure:true,domain:process.env.MOMENTS_APP_FRONT_SITE})
+    else res.clearCookie('token',{httpOnly:true,maxAge:60*60*24*7})
     res.status(200).json({message:'successfully logged out'})
 }
 
