@@ -19,6 +19,15 @@ const port = process.env.PORT || 8000
 app.use(cookieParser())
 if(process.env.NODE_ENV==='production') app.use(cors({origin:process.env.MOMENTS_APP_FRONT_SITE}))
 else app.use(cors({origin:'http://localhost:3000'}))
+
+if(process.env.NODE_ENV==='production'){
+  app.use((req,res,next)=>{
+    if(req.header('x-forwarded-proto')!=='https')
+      res.redirect(`https://${req.header('host')}${req.url}`)
+    else next()
+  })
+}
+
 // app.use(cors({credentials:true,origin:[process.env.MOMENTS_APP_FRONT_SITE,'http://localhost:3000']}))
 app.use(express.json({limit:'50mb'}))
 app.use(express.urlencoded({limit:'50mb',extended:true}))
