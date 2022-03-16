@@ -9,7 +9,7 @@ import validateObjectId from '../utils/validateObjectId.js'
  
  const getAllPosts = async(req,res)=>{
     try {
-        console.log('get all posts ');
+        console.log('get all posts route');
         const {cursor} = req.query
         console.log('the cursor is: ',cursor);
         const limit = parseInt(req.query.limit)
