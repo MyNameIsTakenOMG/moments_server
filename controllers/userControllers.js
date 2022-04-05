@@ -124,7 +124,7 @@ const loadUserInfo = async(req,res)=>{
     try {
         const theLoggingUsername = req.user.user
         const theUser = await User.findOne({username:theLoggingUsername},userProjection)
-        res.status(200).json(theUser)
+        res.status(200).json({user:theUser,message:'User info loaded successfully'})
     } catch (error) {
         console.log(error);
         res.status(500).json({message:'Something wrong, please try again later'})

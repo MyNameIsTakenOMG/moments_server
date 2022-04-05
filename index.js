@@ -28,7 +28,6 @@ if(process.env.NODE_ENV==='production'){
 if(process.env.NODE_ENV==='production') app.use(cors({credentials:true,origin:process.env.MOMENTS_APP_FRONT_SITE}))
 else app.use(cors({origin:'http://localhost:3000'}))
 
-// app.use(cors({credentials:true,origin:[process.env.MOMENTS_APP_FRONT_SITE,'http://localhost:3000']}))
 app.use(express.json({limit:'50mb'}))
 app.use(express.urlencoded({limit:'50mb',extended:true}))
 
@@ -57,7 +56,6 @@ flushDB()
 
 // socket io
 const server = http.createServer(app)
-// const io = new Server(server,{cors:{origin:process.env.NODE_ENV!=='production'?'http://localhost:3000':process.env.MOMENTS_APP_FRONT_SITE}})
 const io = new Server(server,{cors:{origin:process.env.NODE_ENV==='production'?process.env.MOMENTS_APP_FRONT_SITE:'http://localhost:3000'}})
 // pass io instance to each route
 app.use((req, res, next) => {
@@ -111,7 +109,8 @@ const errorLogger = (err,req,res,next)=>{
 
 const errorResponder = (err,req,res,next)=>{
   const code = err.status || 500
-  res.status(code).json({message:'Something wrong, please try again later'})
+  if(code===401) res.status(code).json({message:'Please sign in first'})
+  else res.status(code).json({message:'Something wrong, please try again later'})
 }
 
 const invalidPathHandler = (req,res,next)=>{
