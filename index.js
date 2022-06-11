@@ -43,7 +43,7 @@ mongoose.connection.on('error', err => {
 
 
 // redis
-const redisClient = new Redis(process.env.REDIS_URL,{
+const redisClient = new Redis(process.env.REDIS_TLS_URL,{
   tls:{
     rejectUnauthorized:false
   }
