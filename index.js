@@ -43,7 +43,11 @@ mongoose.connection.on('error', err => {
 
 
 // redis
-const redisClient = new Redis(process.env.REDISTOGO_URL)
+const redisClient = new Redis(process.env.REDIS_URL,{
+  tls:{
+    rejectUnauthorized:false
+  }
+})
 const flushDB = async()=>{
   try {
     await redisClient.flushdb()
