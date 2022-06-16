@@ -3,18 +3,16 @@ import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
 import path from 'path'
 import dotenv from 'dotenv'
-import {OAuth2Client} from 'google-auth-library'
 import cloudinary from '../utils/cloudinary.js'
 import DatauriParser from 'datauri/parser.js'
 import sgMail from '@sendgrid/mail'
-
+import axios from 'axios'
 import Comment from '../models/commentModel.js';
 import User from "../models/userModel.js";
 import Post from '../models/postModel.js';
 
 dotenv.config()
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const resetting_secret = process.env.RESETTING_SECRET
 const jwt_secret=process.env.JWT_SECRET
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -136,11 +134,13 @@ const signInUser = async(req,res)=>{
         const {si_user,si_password,token} = req.body 
         // if user signed in with google acount
         if(token){
-            const ticket = await client.verifyIdToken({
-                idToken:token,
-                audience:process.env.GOOGLE_CLIENT_ID
+            const response = await axios.get('https://openidconnect.googleapis.com/v1/userinfo',{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
             })
-            const {name,email,picture} = ticket.getPayload()
+            const {name,email,picture} = response.data
+
             // check if the email has been registered as a regular user
             let isRegularUser = await User.findOne({email:email,isGoogleUser:false})
             if(isRegularUser) res.status(400).json({message:'sorry, the email has been registered'})
