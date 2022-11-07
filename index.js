@@ -126,3 +126,6 @@ app.use(errorLogger,errorResponder,invalidPathHandler)
 server.listen(port,()=>{
     console.log('server is running on port 8000');
 })
+
+
+// Nov 1,2022  heroku security notifications (OpenSSl CVE-2022-3786 & CVE-2022-3602) -- redeploy the project
