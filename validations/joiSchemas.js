@@ -29,7 +29,7 @@ const joiSchemas = {
         title:Joi.string().max(100).required(),
         contents:Joi.string().replace(/\s+/g,' ').trim().required(),
         tags:Joi.string().replace(/\s+/g,'').max(100).required(),
-        image:Joi.any().required()
+        // image:Joi.any().required()
     }),
     comment_schema:Joi.object({
         postId:Joi.string(),

@@ -290,7 +290,8 @@ const toggleLike = async(req,res)=>{
         const tagArray = tags.replace(/\s+/g,'').split(',') 
 
         const theUser = await User.findOne({username:theLoggingUsername})
-
+        // check if the user uploaded an image
+        if(!req.file.originalname) throw new Error('no image found')
         // using parser to convert buffer into base64 encoded string
         const parser = new DatauriParser()
         const result = parser.format(path.extname(req.file.originalname),req.file.buffer)
